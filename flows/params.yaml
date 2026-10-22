@@ -1,0 +1,15 @@
+# Runtime parameters for Demo 2. One block per environment.
+dev:
+  KAFKA_BROKER: tx-kafka:9092
+  KAFKA_TOPIC: orders.events
+  CONSUMER_GROUP: techxchange-demo2
+  JDBC_URL: jdbc:postgresql://tx-postgres:5432/shop
+  TARGET_SCHEMA: lakehouse
+  TARGET_TABLE: order_events
+test:
+  KAFKA_BROKER: tx-kafka-test:9092
+  KAFKA_TOPIC: orders.events
+  CONSUMER_GROUP: techxchange-demo2-test
+  JDBC_URL: jdbc:postgresql://tx-postgres-test:5432/shop
+  TARGET_SCHEMA: lakehouse
+  TARGET_TABLE: order_events
