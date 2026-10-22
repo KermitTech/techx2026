@@ -1,0 +1,29 @@
+name: Deploy StreamSets flow
+
+on:
+  push:
+    branches: [main]
+    paths: ["flows/**"]
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Target environment
+        default: test
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.env || 'test' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install SDK
+        run: pip install streamsets pyyaml
+      - name: Build and publish flow
+        env:
+          SSET_CRED_ID: ${{ secrets.SSET_CRED_ID }}
+          SSET_TOKEN: ${{ secrets.SSET_TOKEN }}
+          SSET_ENGINE_ID: ${{ secrets.SSET_ENGINE_ID }}
+        run: python flows/demo2_kafka_drift.py --env ${{ github.event.inputs.env || 'test' }}
